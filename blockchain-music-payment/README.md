@@ -57,18 +57,18 @@ This smart contract provides a transparent and automated system for:
 
 ## Error Codes
 
-- `ERROR-UNAUTHORIZED-CONTRACT-ACCESS (u100)`: Unauthorized access attempt
-- `ERROR-ROYALTY-PERCENTAGE-OUT-OF-BOUNDS (u101)`: Invalid royalty percentage
-- `ERROR-SONG-ALREADY-REGISTERED (u102)`: Duplicate song registration
-- `ERROR-SONG-NOT-IN-REGISTRY (u103)`: Song not found
-- `ERROR-INSUFFICIENT-STX-BALANCE (u104)`: Insufficient funds for payment
-- `ERROR-INVALID-ROYALTY-RECIPIENT-ADDRESS (u105)`: Invalid recipient address
-- `ERROR-ROYALTY-PAYMENT-DISTRIBUTION-FAILED (u106)`: Payment distribution failure
-- `ERROR-STRING-LENGTH-EXCEEDS-LIMIT (u107)`: String length violation
-- `ERROR-INVALID-SONG-TITLE-FORMAT (u108)`: Invalid song title format
-- `ERROR-INVALID-PARTICIPANT-ROLE-FORMAT (u109)`: Invalid role format
-- `ERROR-INVALID-PRIMARY-ARTIST-ADDRESS (u110)`: Invalid artist address
-- `ERROR-INVALID-ADMINISTRATOR-ADDRESS (u111)`: Invalid admin address
+- `ERR_UNAUTHORIZED_CONTRACT_ACCESS (u100)`: Unauthorized access attempt
+- `ERR_ROYALTY_PERCENTAGE_OUT_OF_BOUNDS (u101)`: Invalid royalty percentage
+- `ERR_SONG_ALREADY_REGISTERED (u102)`: Duplicate song registration
+- `ERR_SONG_NOT_IN_REGISTRY (u103)`: Song not found
+- `ERR_INSUFFICIENT_STX_BALANCE (u104)`: Insufficient funds for payment
+- `ERR_INVALID_ROYALTY_RECIPIENT_ADDRESS (u105)`: Invalid recipient address
+- `ERR_ROYALTY_PAYMENT_DISTRIBUTION_FAILED (u106)`: Payment distribution failure
+- `ERR_STRING_LENGTH_EXCEEDS_LIMIT (u107)`: String length violation
+- `ERR_INVALID_SONG_TITLE_FORMAT (u108)`: Invalid song title format
+- `ERR_INVALID_PARTICIPANT_ROLE_FORMAT (u109)`: Invalid role format
+- `ERR_INVALID_PRIMARY_ARTIST_ADDRESS (u110)`: Invalid artist address
+- `ERR_INVALID_ADMINISTRATOR_ADDRESS (u111)`: Invalid admin address
 
 ## Data Structures
 

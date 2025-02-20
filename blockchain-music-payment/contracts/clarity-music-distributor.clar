@@ -1,18 +1,18 @@
 ;; Music Royalty Distribution Smart Contract
 
 ;; Error codes
-(define-constant ERROR-UNAUTHORIZED-CONTRACT-ACCESS (err u100))
-(define-constant ERROR-ROYALTY-PERCENTAGE-OUT-OF-BOUNDS (err u101))
-(define-constant ERROR-SONG-ALREADY-REGISTERED (err u102))
-(define-constant ERROR-SONG-NOT-IN-REGISTRY (err u103))
-(define-constant ERROR-INSUFFICIENT-STX-BALANCE (err u104))
-(define-constant ERROR-INVALID-ROYALTY-RECIPIENT-ADDRESS (err u105))
-(define-constant ERROR-ROYALTY-PAYMENT-DISTRIBUTION-FAILED (err u106))
-(define-constant ERROR-STRING-LENGTH-EXCEEDS-LIMIT (err u107))
-(define-constant ERROR-INVALID-SONG-TITLE-FORMAT (err u108))
-(define-constant ERROR-INVALID-PARTICIPANT-ROLE-FORMAT (err u109))
-(define-constant ERROR-INVALID-PRIMARY-ARTIST-ADDRESS (err u110))
-(define-constant ERROR-INVALID-ADMINISTRATOR-ADDRESS (err u111))
+(define-constant ERR_UNAUTHORIZED_CONTRACT_ACCESS (err u100))
+(define-constant ERR_ROYALTY_PERCENTAGE_OUT_OF_BOUNDS (err u101))
+(define-constant ERR_SONG_ALREADY_REGISTERED (err u102))
+(define-constant ERR_SONG_NOT_IN_REGISTRY (err u103))
+(define-constant ERR_INSUFFICIENT_STX_BALANCE (err u104))
+(define-constant ERR_INVALID_ROYALTY_RECIPIENT_ADDRESS (err u105))
+(define-constant ERR_ROYALTY_PAYMENT_DISTRIBUTION_FAILED (err u106))
+(define-constant ERR_STRING_LENGTH_EXCEEDS_LIMIT (err u107))
+(define-constant ERR_INVALID_SONG_TITLE_FORMAT (err u108))
+(define-constant ERR_INVALID_PARTICIPANT_ROLE_FORMAT (err u109))
+(define-constant ERR_INVALID_PRIMARY_ARTIST_ADDRESS (err u110))
+(define-constant ERR_INVALID_ADMINISTRATOR_ADDRESS (err u111))
 
 ;; Data structures
 (define-map SongRegistry
@@ -123,8 +123,8 @@
                                total-payment-amount))
     )
     (begin
-        (asserts! (> (len royalty-distribution-details) u0) ERROR-SONG-NOT-IN-REGISTRY)
-        (asserts! (> total-amount-distributed u0) ERROR-ROYALTY-PAYMENT-DISTRIBUTION-FAILED)
+        (asserts! (> (len royalty-distribution-details) u0) ERR_SONG_NOT_IN_REGISTRY)
+        (asserts! (> total-amount-distributed u0) ERR_ROYALTY_PAYMENT_DISTRIBUTION_FAILED)
         (ok total-amount-distributed)))
 )
 
@@ -134,9 +134,9 @@
         (new-song-unique-id (+ (var-get total-songs-in-registry) u1))
     )
     (begin
-        (asserts! (is-contract-admin) ERROR-UNAUTHORIZED-CONTRACT-ACCESS)
-        (asserts! (is-valid-ascii-string song-title) ERROR-INVALID-SONG-TITLE-FORMAT)
-        (asserts! (is-valid-principal-address primary-artist-address) ERROR-INVALID-PRIMARY-ARTIST-ADDRESS)
+        (asserts! (is-contract-admin) ERR_UNAUTHORIZED_CONTRACT_ACCESS)
+        (asserts! (is-valid-ascii-string song-title) ERR_INVALID_SONG_TITLE_FORMAT)
+        (asserts! (is-valid-principal-address primary-artist-address) ERR_INVALID_PRIMARY_ARTIST_ADDRESS)
         
         (map-set SongRegistry
             { song-unique-id: new-song-unique-id }
@@ -161,10 +161,10 @@
         (song-record (get-song-details song-unique-id))
     )
     (begin
-        (asserts! (is-some song-record) ERROR-SONG-NOT-IN-REGISTRY)
-        (asserts! (is-valid-percentage-range royalty-share-percentage) ERROR-ROYALTY-PERCENTAGE-OUT-OF-BOUNDS)
-        (asserts! (is-valid-role-string participant-role-type) ERROR-INVALID-PARTICIPANT-ROLE-FORMAT)
-        (asserts! (is-valid-principal-address participant-address) ERROR-INVALID-ROYALTY-RECIPIENT-ADDRESS)
+        (asserts! (is-some song-record) ERR_SONG_NOT_IN_REGISTRY)
+        (asserts! (is-valid-percentage-range royalty-share-percentage) ERR_ROYALTY_PERCENTAGE_OUT_OF_BOUNDS)
+        (asserts! (is-valid-role-string participant-role-type) ERR_INVALID_PARTICIPANT_ROLE_FORMAT)
+        (asserts! (is-valid-principal-address participant-address) ERR_INVALID_ROYALTY_RECIPIENT_ADDRESS)
         
         (map-set RoyaltyParticipants
             { song-unique-id: song-unique-id, participant-address: participant-address }
@@ -182,8 +182,8 @@
         (song-record (get-song-details song-unique-id))
     )
     (begin
-        (asserts! (is-some song-record) ERROR-SONG-NOT-IN-REGISTRY)
-        (asserts! (>= (stx-get-balance tx-sender) payment-amount) ERROR-INSUFFICIENT-STX-BALANCE)
+        (asserts! (is-some song-record) ERR_SONG_NOT_IN_REGISTRY)
+        (asserts! (>= (stx-get-balance tx-sender) payment-amount) ERR_INSUFFICIENT_STX_BALANCE)
         
         (try! (distribute-royalty-payments song-unique-id payment-amount))
         (map-set SongRegistry
@@ -200,8 +200,8 @@
         (song-record (get-song-details song-unique-id))
     )
     (begin
-        (asserts! (is-contract-admin) ERROR-UNAUTHORIZED-CONTRACT-ACCESS)
-        (asserts! (is-some song-record) ERROR-SONG-NOT-IN-REGISTRY)
+        (asserts! (is-contract-admin) ERR_UNAUTHORIZED_CONTRACT_ACCESS)
+        (asserts! (is-some song-record) ERR_SONG_NOT_IN_REGISTRY)
         
         (map-set SongRegistry
             { song-unique-id: song-unique-id }
@@ -214,8 +214,8 @@
 
 (define-public (transfer-admin-rights (new-admin-address principal))
     (begin
-        (asserts! (is-contract-admin) ERROR-UNAUTHORIZED-CONTRACT-ACCESS)
-        (asserts! (is-valid-principal-address new-admin-address) ERROR-INVALID-ADMINISTRATOR-ADDRESS)
+        (asserts! (is-contract-admin) ERR_UNAUTHORIZED_CONTRACT_ACCESS)
+        (asserts! (is-valid-principal-address new-admin-address) ERR_INVALID_ADMINISTRATOR_ADDRESS)
         
         (var-set contract-admin-address new-admin-address)
         (ok true))
